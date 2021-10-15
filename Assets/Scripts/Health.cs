@@ -31,11 +31,13 @@ public class Health : MonoBehaviourPunCallbacks, IPunObservable
 
     public void takeDamage(int damage) {
         health -= damage;
-        healthbarImage.fillAmount = health/maxHealth;
+        if(photonView.IsMine) {
+            healthbarImage.fillAmount = health/maxHealth;
+        }
     }
 
     public void healDamage(int heal) {
-        health += heal;
+        health = Mathf.Clamp(health + heal, 0, maxHealth);
         healthbarImage.fillAmount = health/maxHealth;
     }
 

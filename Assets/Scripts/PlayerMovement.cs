@@ -12,14 +12,19 @@ public class PlayerMovement : MonoBehaviour
   private Vector3 jukeDir;
   private float jukeSpeed;
   private State state;
+  public bool isCrawling = false;
+  public GameObject weapon;
+  protected SpriteRenderer gunDrawn;
+  protected float originalRadius;
   private enum State {
     Normal,
     Juking,
-    Crawling,
   }
 
   void Start() {
     photonView = GetComponent<PhotonView>();
+    gunDrawn = weapon.GetComponent<SpriteRenderer>();
+    originalRadius = GetComponent<CircleCollider2D>().radius;
     state = State.Normal;
   }
 
@@ -35,16 +40,17 @@ public class PlayerMovement : MonoBehaviour
       case State.Juking:
         HandleJuking();
         break;
-      case State.Crawling:
-        HandleCrawling();
-        break;
       }
     }
   }
 
   void FixedUpdate() {
     if(!photonView.IsMine) return;
-    rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+    if(isCrawling == false) {
+      rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+    } else {
+      rb.MovePosition(rb.position + movement * moveSpeed/3 * Time.fixedDeltaTime);
+    }
   }
 
   void Juke() {
@@ -56,12 +62,6 @@ public class PlayerMovement : MonoBehaviour
     }
   }
 
-  void Crawl() {
-    if(Input.GetKeyDown("space")) {
-      state = State.Crawling;
-    }
-  }
-
   private void HandleJuking() {
     transform.position += jukeDir * jukeSpeed * Time.deltaTime;
     jukeSpeed -= jukeSpeed * 5f * Time.deltaTime;
@@ -70,8 +70,23 @@ public class PlayerMovement : MonoBehaviour
     }
   }
 
-  private void HandleCrawling() {
-    //
+  void Crawl() {
+    if(Input.GetKeyDown("space")) {
+      if(!photonView.IsMine) return;
+      isCrawling = !isCrawling;
+      photonView.RPC("HolsterWeapon", RpcTarget.AllBuffered);
+      if(isCrawling == true) {
+        transform.localScale = new Vector3(1f, 0.5f, 1f);
+        GetComponent<CircleCollider2D>().radius = originalRadius * 0.5f;
+      } else {
+        transform.localScale = new Vector3(1f, 1f, 1f);
+        GetComponent<CircleCollider2D>().radius = originalRadius;
+      }
+    }
   }
-    
+
+  [PunRPC]
+  void HolsterWeapon() {
+    gunDrawn.enabled = !gunDrawn.enabled;
+  }
 }

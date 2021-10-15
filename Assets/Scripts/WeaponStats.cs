@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
 
 public class WeaponStats : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -9,6 +10,7 @@ public class WeaponStats : MonoBehaviourPunCallbacks, IPunObservable
   public int ammo = 0;
   public float fireRate = 0;
   public float dartForce = 10f;
+  public TextMeshProUGUI ammoCount;
 
   public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
       if(stream.IsWriting) {
@@ -27,12 +29,14 @@ public class WeaponStats : MonoBehaviourPunCallbacks, IPunObservable
   public void expendAmmo() {
     if(!photonView.IsMine) return;
     ammo--;
+    ammoCount.SetText("x {0}", ammo);
   }
 
   [PunRPC]
   public void addAmmo(int darts) {
     if(!photonView.IsMine) return;
     ammo += darts;
+    ammoCount.SetText("x {0}", ammo);
   }
 
 }

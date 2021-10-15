@@ -14,18 +14,16 @@ public class Dart : MonoBehaviourPun
   protected Health health;
 
   void Awake() {
-    GameObject weapon = GameObject.Find("Weapon");
-    weaponStats = weapon.GetComponentInParent<WeaponStats>();
-    health = weapon.GetComponentInParent<Health>();
     firedDart = GetComponent<BoxCollider2D>();
   }
   
   void OnCollisionEnter2D(Collision2D other) {
     Vector2 normal = other.contacts[0].normal;
     Vector2 vel = rb.velocity;
+    health = other.collider.GetComponent<Health>();
     if(gameObject != null) {
       if((other.gameObject.name == "Player" || other.gameObject.name == "Player(Clone)") && liveAmmo == true) {
-        GetComponent<PhotonView>().RPC("playerHit", RpcTarget.AllBuffered);
+        health.takeDamage(1);
         Destroy(gameObject);
         return;
       } else {
@@ -40,8 +38,10 @@ public class Dart : MonoBehaviourPun
   }
 
    void OnTriggerEnter2D(Collider2D other) {
-     if((other.gameObject.name == "Player" || other.gameObject.name == "Player(Clone)") && weaponStats.ammo < weaponStats.maxAmmo && liveAmmo == false) {
-        GetComponent<PhotonView>().RPC("pickupDart", RpcTarget.AllBuffered);
+      weaponStats = other.GetComponent<WeaponStats>();
+      if((other.gameObject.name == "Player" || other.gameObject.name == "Player(Clone)") && weaponStats.ammo < weaponStats.maxAmmo && liveAmmo == false) {
+        weaponStats.addAmmo(1);
+        GetComponent<PhotonView>().RPC("DestroyDart", RpcTarget.AllBuffered);
       }
    }
 
@@ -56,17 +56,16 @@ public class Dart : MonoBehaviourPun
   }
 
   [PunRPC]
-  public void pickupDart() {
-    weaponStats.addAmmo(1);
-    Destroy(gameObject);
-  }
+    void DestroyDart() {
+        Destroy(gameObject);
+    }
 
-  [PunRPC]
-  public void playerHit() {
-    if(photonView.IsMine) return;
-      // GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
-      // Destroy(effect, 5f);
-    health.takeDamage(1);
-  }
+  // [PunRPC]
+  // public void playerHit() {
+  //   if(photonView.IsMine) return;
+  //     // GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
+  //     // Destroy(effect, 5f);
+  //   health.takeDamage(1);
+  // }
 
 }

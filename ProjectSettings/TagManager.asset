@@ -8,7 +8,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Background
+  - Traps
   - Water
   - UI
   - Player
@@ -16,7 +16,7 @@ TagManager:
   - Darts
   - Walls
   - Stuff
-  - 
+  - Background
   - 
   - 
   - 
@@ -38,18 +38,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
-  - name: Player
-    uniqueID: 2603222891
-    locked: 0
-  - name: Stuff
-    uniqueID: 646811383
+  - name: Background
+    uniqueID: 2749999369
     locked: 0
   - name: Walls
     uniqueID: 2568890947
     locked: 0
-  - name: Background
-    uniqueID: 2749999369
+  - name: Stuff
+    uniqueID: 646811383
+    locked: 0
+  - name: Player
+    uniqueID: 2603222891
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0

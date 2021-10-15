@@ -8,15 +8,15 @@ public class Shooting : MonoBehaviourPun
   public Transform FirePoint;
   public GameObject dartPrefab;
   private bool reloaded = true;
-  //PhotonView photonView;
+  protected PlayerMovement playerMovement;
 
   void Start() {
-    //photonView = GetComponent<PhotonView>();
+    playerMovement = GetComponentInParent<PlayerMovement>();
   }
     
   void Update() {
     if(!photonView.IsMine) return;
-    if(Input.GetButtonDown("Fire1") && reloaded) {
+    if(Input.GetButtonDown("Fire1") && reloaded && playerMovement.isCrawling == false) {
       GetComponent<PhotonView>().RPC("Shoot", RpcTarget.AllBuffered);
     }
   }
@@ -32,7 +32,6 @@ public class Shooting : MonoBehaviourPun
       rb.AddForce(FirePoint.up * weaponStats.dartForce, ForceMode2D.Impulse);
       weaponStats.photonView.RPC("expendAmmo", RpcTarget.AllBuffered);
       StartCoroutine(Reload(weaponStats.fireRate));
-      // Debug.Log(weaponStats.ammo);
     }
   }
 
