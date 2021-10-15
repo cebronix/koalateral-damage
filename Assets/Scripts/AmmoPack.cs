@@ -6,27 +6,21 @@ using Photon.Pun;
 public class AmmoPack : MonoBehaviour
 {
     protected WeaponStats weaponStats;
-    void Start() {
-        StartCoroutine(LateStart(1f));
-    }
-
-    IEnumerator LateStart(float waitTime)
-     {
-        yield return new WaitForSeconds(waitTime);
-        GameObject player = GameObject.Find("Player(Clone)");
-        weaponStats = player.GetComponent<WeaponStats>();
-     }
+    private int damage = 4;
 
     [PunRPC]
     void OnTriggerEnter2D(Collider2D other) {
-     if((other.gameObject.name == "Player" || other.gameObject.name == "Player(Clone)") && weaponStats.ammo < weaponStats.maxAmmo) {
-        GetComponent<PhotonView>().RPC("pickupAmmoPack", RpcTarget.AllBuffered);
-      }
+        if(gameObject != null) {
+            weaponStats = other.GetComponent<WeaponStats>();
+            if((other.gameObject.name == "Player" || other.gameObject.name == "Player(Clone)") && weaponStats.ammo <= weaponStats.maxAmmo - damage) {
+                weaponStats.addAmmo(damage);
+                GetComponent<PhotonView>().RPC("DestroyPack", RpcTarget.AllBuffered);
+            }
+        }
     }
 
     [PunRPC]
-    public void pickupAmmoPack() {
-        weaponStats.addAmmo(4);
+    void DestroyPack() {
         Destroy(gameObject);
     }
 }

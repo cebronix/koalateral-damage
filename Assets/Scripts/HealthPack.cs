@@ -6,24 +6,21 @@ using Photon.Pun;
 public class HealthPack : MonoBehaviour
 {
     protected Health health;
-    void Start() {
-        StartCoroutine(LateStart(1f));
-    }
-
-    IEnumerator LateStart(float waitTime)
-     {
-        yield return new WaitForSeconds(waitTime);
-        GameObject player = GameObject.Find("Player(Clone)");
-        health = player.GetComponent<Health>();
-     }
+    private int heal = 4;
 
     [PunRPC]
     void OnTriggerEnter2D(Collider2D other) {
         if(gameObject != null) {
+            health = other.GetComponent<Health>();
             if((other.gameObject.name == "Player" || other.gameObject.name == "Player(Clone)") && health.health < health.maxHealth) {
-                health.healDamage(1);
-                Destroy(gameObject);
+                health.healDamage(heal);
+                GetComponent<PhotonView>().RPC("DestroyPack", RpcTarget.AllBuffered);
             }
         }
+    }
+
+    [PunRPC]
+    void DestroyPack() {
+        Destroy(gameObject);
     }
 }
