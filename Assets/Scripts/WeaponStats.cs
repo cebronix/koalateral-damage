@@ -13,11 +13,11 @@ public class WeaponStats : MonoBehaviourPunCallbacks, IPunObservable
   public TextMeshProUGUI ammoCount;
 
   public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-      if(stream.IsWriting) {
-          stream.SendNext(ammo);
-      } else {
-          ammo = (int)stream.ReceiveNext();
-      }
+    if(stream.IsWriting) {
+      stream.SendNext(ammo);
+    } else {
+      ammo = (int)stream.ReceiveNext();
+    }
   }
 
   void Start() {
