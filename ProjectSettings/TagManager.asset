@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - lowWall
+  - tunnel
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - Walls
   - Stuff
   - Background
-  - 
+  - lowWalls
   - 
   - 
   - 
@@ -46,6 +48,9 @@ TagManager:
     locked: 0
   - name: Stuff
     uniqueID: 646811383
+    locked: 0
+  - name: lowWalls
+    uniqueID: 3125208467
     locked: 0
   - name: Player
     uniqueID: 2603222891
