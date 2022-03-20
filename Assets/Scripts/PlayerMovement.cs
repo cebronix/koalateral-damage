@@ -14,8 +14,10 @@ public class PlayerMovement : MonoBehaviour
   private State state;
   public bool isCrawling = false;
   public GameObject weapon;
+  protected SpriteRenderer playerSprite;
   protected SpriteRenderer gunDrawn;
   protected float originalRadius;
+  public Animator animator;
   private enum State {
     Normal,
     Juking,
@@ -23,8 +25,10 @@ public class PlayerMovement : MonoBehaviour
 
   void Start() {
     photonView = GetComponent<PhotonView>();
+    playerSprite = GetComponent<SpriteRenderer>();
     gunDrawn = weapon.GetComponent<SpriteRenderer>();
     originalRadius = GetComponent<CircleCollider2D>().radius;
+    animator = GetComponent<Animator>();
     state = State.Normal;
   }
 
@@ -33,6 +37,12 @@ public class PlayerMovement : MonoBehaviour
       switch (state) {
       case State.Normal:
         movement.x = Input.GetAxisRaw("Horizontal");
+        animator.SetFloat("speed", Mathf.Abs(movement.x));
+        if (movement.x > 0) {
+          playerSprite.flipX = false;
+        } else if (movement.x < 0) {
+          playerSprite.flipX = true;
+        }
         movement.y = Input.GetAxisRaw("Vertical");
         Juke();
         Crawl();
