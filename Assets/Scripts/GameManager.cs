@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
   [Header("Stats")]
   public bool gameEnded = false;
-//   public float timeToWin;
+
   public float invincibleDuration;
-//   private float hatPickupTime;
+
 
   [Header("Players")]
   public string playerPrefabLocation;
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     PlayerController playerScript = playerObj.GetComponent<PlayerController>();
 
     // Temporary so all players don't look the same
-    playerScript.photonView.RPC("Recolor", RpcTarget.AllBuffered);
+    // playerScript.photonView.RPC("Recolor", RpcTarget.AllBuffered);
 
     // Initialize the player
     playerScript.photonView.RPC("Initialize", RpcTarget.All, PhotonNetwork.LocalPlayer);
@@ -71,27 +71,6 @@ public class GameManager : MonoBehaviourPunCallbacks
   public PlayerController GetPlayer(GameObject playerObj) {
     return players.First(x => x.gameObject == playerObj);
   }
-
-  // called when a player hits the hatted player - giving them the hat
-//   [PunRPC]
-//   public void GiveHat(int playerId, bool initialGive) {
-//     // remove the hat from currently hatted palyer
-//     if(!initialGive) {
-//       GetPlayer(playerWithHat).SetHat(false);
-//     }
-
-//     // give the hat to new player
-//     playerWithHat = playerId;
-//     GetPlayer(playerId).SetHat(true);
-//     hatPickupTime = Time.time;
-//   }
-
-//   public bool CanGetHat() {
-//     if(Time.time > hatPickupTime + invincibleDuration)
-//       return true;
-//     else
-//       return false;
-//   }
 
   [PunRPC]
   void WinGame(int playerId) {
