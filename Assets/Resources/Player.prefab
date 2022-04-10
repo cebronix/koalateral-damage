@@ -274,7 +274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7187307243049464245
 Transform:
   m_ObjectHideFlags: 0
@@ -704,9 +704,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.056455553, y: 0.18931878}
+  m_Offset: {x: 0.056455553, y: 0.17445868}
   serializedVersion: 2
-  m_Radius: 0.29431272
+  m_Radius: 0.27945262
 --- !u!61 &2848731815634710965
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -720,7 +720,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.056613326, y: -0.42307988}
+  m_Offset: {x: 0.056613326, y: -0.40450475}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -731,7 +731,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.77107525, y: 0.8267357}
+  m_Size: {x: 0.77107525, y: 0.7895854}
   m_EdgeRadius: 0
 --- !u!114 &6454478242929097455
 MonoBehaviour:
@@ -760,8 +760,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   rb: {fileID: 6454478242929097453}
+  movement: {x: 0, y: 0}
   isCrawling: 0
   weapon: {fileID: 6454478242845005029}
+  playerSprite: {fileID: 0}
   animator: {fileID: 0}
 --- !u!114 &2167014915323662700
 MonoBehaviour:
@@ -1120,6 +1122,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6055148792959653955, guid: 0e56240269174044f8ea22feb08b9b58, type: 3}
+      propertyPath: trapPrefab
+      value: 
+      objectReference: {fileID: 3124873230619925968, guid: 7a6b4ea6d665eb84dbe1f17355ede2f7, type: 3}
     - target: {fileID: 6055148792959653955, guid: 0e56240269174044f8ea22feb08b9b58, type: 3}
       propertyPath: playerController
       value: 

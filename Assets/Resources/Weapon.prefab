@@ -135,6 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FirePoint: {fileID: 6055148791521821642}
   dartPrefab: {fileID: 1874649356368150854, guid: cdff883450281e64ab5714c51f91dc55, type: 3}
+  trapPrefab: {fileID: 3124873230619925968, guid: 7a6b4ea6d665eb84dbe1f17355ede2f7, type: 3}
 --- !u!50 &6055148792959653952
 Rigidbody2D:
   serializedVersion: 4

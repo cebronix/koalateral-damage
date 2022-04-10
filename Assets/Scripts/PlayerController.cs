@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
   void Start() {
     playerMovement = GetComponent<PlayerMovement>();
     playerSprite = GetComponent<SpriteRenderer>();
+    // playerHealth = GetComponent<Health>();
   }
 
   [PunRPC]
@@ -107,49 +108,4 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
       photonPlayer = (Photon.Realtime.Player)stream.ReceiveNext();
     }
   }
-
-//   void Update() {
-//     if(PhotonNetwork.IsMasterClient) {
-//     //   if(curHatTime >= GameManager.instance.timeToWin && !GameManager.instance.gameEnded) {
-//     //     GameManager.instance.gameEnded = true;
-//     //     GameManager.instance.photonView.RPC("WinGame", RpcTarget.All, id);
-//     //   }
-//     }
-
-//   void TryJump() {
-//     Ray ray = new Ray(transform.position, Vector3.down);
-
-//     if(Physics.Raycast(ray, 0.7f)) {
-//       rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-//     }
-//   }
-
-//   public void SetHat(bool hasHat) {
-//     hatObject.SetActive(hasHat);
-//   }
-
-//   void OnCollisionEnter(Collision collision) {
-//     if(!photonView.IsMine)
-//       return;
-
-//     // did we hit another player?
-//     if(collision.gameObject.CompareTag("Player")) {
-//       // do they have the hat?
-//       if(GameManager.instance.GetPlayer(collision.gameObject).id == GameManager.instance.playerWithHat) {
-//         // can we get the hat?
-//         if(GameManager.instance.CanGetHat()) {
-//           // give us the hat
-//           GameManager.instance.photonView.RPC("GiveHat", RpcTarget.All, id, false);
-//         }
-//       }
-//     }
-//   }
-
-//   public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-//     if(stream.IsWriting) {
-//       stream.SendNext(curHatTime);
-//     } else if(stream.IsReading) {
-//       curHatTime = (float)stream.ReceiveNext();
-//     }
-//   }
 }
