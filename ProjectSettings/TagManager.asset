@@ -6,6 +6,7 @@ TagManager:
   tags:
   - lowWall
   - tunnel
+  - trap
   layers:
   - Default
   - TransparentFX

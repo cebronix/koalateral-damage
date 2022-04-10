@@ -1,12 +1,9 @@
 fileFormatVersion: 2
-guid: 8157130e5bef80040af136dd6c87767f
+guid: 9e0424335b68ded458b4544e1cf9a6f7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - FirePoint: {instanceID: 0}
-  - dartPrefab: {instanceID: 0}
-  - trapPrefab: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

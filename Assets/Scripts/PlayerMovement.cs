@@ -7,14 +7,14 @@ public class PlayerMovement : MonoBehaviour
 {
   public float moveSpeed = 5f;
   public Rigidbody2D rb;
-  Vector2 movement;
+  public Vector2 movement;
   PhotonView photonView;
   private Vector3 jukeDir;
   private float jukeSpeed;
   private State state;
   public bool isCrawling = false;
   public GameObject weapon;
-  protected SpriteRenderer playerSprite;
+  public SpriteRenderer playerSprite;
   protected SpriteRenderer gunDrawn;
   protected float originalRadius;
   public Animator animator;
@@ -37,13 +37,14 @@ public class PlayerMovement : MonoBehaviour
       switch (state) {
       case State.Normal:
         movement.x = Input.GetAxisRaw("Horizontal");
-        animator.SetFloat("speed", Mathf.Abs(movement.x));
         if (movement.x > 0) {
           playerSprite.flipX = false;
         } else if (movement.x < 0) {
           playerSprite.flipX = true;
         }
         movement.y = Input.GetAxisRaw("Vertical");
+        animator.SetFloat("h-speed", Mathf.Abs(movement.x));
+        animator.SetFloat("v-speed", Mathf.Abs(movement.y));
         Juke();
         Crawl();
         break;
@@ -64,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
   }
 
   void Juke() {
+    // TODO: consider limiting consecutive jukes
     if(Input.GetMouseButtonDown(1)) {
       state = State.Juking;
       Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

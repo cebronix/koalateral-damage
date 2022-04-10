@@ -7,8 +7,12 @@ public class Shooting : MonoBehaviourPun
 {
   public Transform FirePoint;
   public GameObject dartPrefab;
+  public GameObject trapPrefab;
+  public Vector3 trap_position;
+  public BoxCollider2D bc;
   private bool reloaded = true;
   protected PlayerMovement playerMovement;
+  public PlayerController playerController;
 
   void Start() {
     playerMovement = GetComponentInParent<PlayerMovement>();
@@ -18,6 +22,9 @@ public class Shooting : MonoBehaviourPun
     if(!photonView.IsMine) return;
     if(Input.GetButtonDown("Fire1") && reloaded && playerMovement.isCrawling == false) {
       GetComponent<PhotonView>().RPC("Shoot", RpcTarget.AllBuffered);
+    }
+    if(Input.GetButtonDown("layTrap")) {
+      GetComponent<PhotonView>().RPC("Trap", RpcTarget.AllBuffered);
     }
   }
 
@@ -32,6 +39,21 @@ public class Shooting : MonoBehaviourPun
       rb.AddForce(FirePoint.up * weaponStats.dartForce, ForceMode2D.Impulse);
       weaponStats.photonView.RPC("expendAmmo", RpcTarget.AllBuffered);
       StartCoroutine(Reload(weaponStats.fireRate));
+    }
+  }
+
+  [PunRPC]
+  void Trap() {
+    if(playerMovement.playerSprite.flipX == false && photonView.IsMine) {
+      trap_position = transform.position + new Vector3(0 +1,0,0);
+    } else if(playerMovement.playerSprite.flipX == true && photonView.IsMine) {
+      trap_position = transform.position + new Vector3(0 -1,0,0);
+    }
+    if(photonView.IsMine) {
+      playerController = GetComponent<PlayerController>();
+      GameObject trap = PhotonNetwork.Instantiate(trapPrefab.name, trap_position, Quaternion.identity);
+      trap.GetComponent<trap>().setTrapOwner(PhotonNetwork.LocalPlayer.ActorNumber);
+      trap.gameObject.name = "trap";
     }
   }
 
