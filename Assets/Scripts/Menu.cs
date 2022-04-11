@@ -15,6 +15,7 @@ public class Menu : MonoBehaviourPunCallbacks
   [Header("Main Screen")]
   public Button createRoomButton;
   public Button joinRoomButton;
+  public TextMeshProUGUI characterNameText;
 
   [Header("Lobby Screen")]
   public TextMeshProUGUI playerListText;
@@ -49,6 +50,18 @@ public class Menu : MonoBehaviourPunCallbacks
 
   public void OnPlayerNameUpdate(TMP_InputField playerNameInput) {
     PhotonNetwork.NickName = playerNameInput.text;
+  }
+
+  public void OnCharacterHover(string characterName) {
+    characterNameText.text = characterName;
+  }
+
+  public void OnCharacterHoverLeave() {
+    characterNameText.text = "Character Name...";
+  }
+
+  public void OnCharacterSelect(string character) {
+    Debug.Log(character);
   }
 
   public override void OnJoinedRoom() {
