@@ -8,6 +8,7 @@ public class WeaponStats : MonoBehaviourPunCallbacks, IPunObservable
 {
   public int maxAmmo = 20;
   public int ammo = 0;
+  public int trapInv = 0;
   public float fireRate = 0;
   public float dartForce = 10f;
   public TextMeshProUGUI ammoCount;
@@ -22,6 +23,7 @@ public class WeaponStats : MonoBehaviourPunCallbacks, IPunObservable
 
   void Start() {
     ammo = maxAmmo;
+    trapInv = 1;
     fireRate = 0.5f;
   }
 
@@ -37,6 +39,18 @@ public class WeaponStats : MonoBehaviourPunCallbacks, IPunObservable
     if(!photonView.IsMine) return;
     ammo += darts;
     ammoCount.SetText("x {0}", ammo);
+  }
+
+  [PunRPC]
+  public void expendTrapInv() {
+    if(!photonView.IsMine) return;
+    trapInv--;
+  }
+
+  [PunRPC]
+  public void addTrapInv() {
+    if(!photonView.IsMine) return;
+    ammo ++;
   }
 
 }

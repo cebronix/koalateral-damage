@@ -44,16 +44,18 @@ public class Shooting : MonoBehaviourPun
 
   [PunRPC]
   void Trap() {
+    WeaponStats weaponStats = GetComponentInParent<WeaponStats>();
     if(playerMovement.playerSprite.flipX == false && photonView.IsMine) {
-      trap_position = transform.position + new Vector3(0 +1,0,0);
+      trap_position = transform.position + new Vector3(0 +2,0,0);
     } else if(playerMovement.playerSprite.flipX == true && photonView.IsMine) {
-      trap_position = transform.position + new Vector3(0 -1,0,0);
+      trap_position = transform.position + new Vector3(0 -2,0,0);
     }
-    if(photonView.IsMine) {
+    if(weaponStats.trapInv > 0 && photonView.IsMine) {
       playerController = GetComponent<PlayerController>();
       GameObject trap = PhotonNetwork.Instantiate(trapPrefab.name, trap_position, Quaternion.identity);
       trap.GetComponent<trap>().setTrapOwner(PhotonNetwork.LocalPlayer.ActorNumber);
       trap.gameObject.name = "trap";
+      weaponStats.photonView.RPC("expendTrapInv", RpcTarget.AllBuffered);
     }
   }
 
